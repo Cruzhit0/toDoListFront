@@ -1,0 +1,62 @@
+<div class="login-page flex items-center justify-center min-h-[calc(100vh-64px)]">
+    <div class="login-card w-full max-w-md p-8 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-xl">
+      <h1 class="text-2xl font-bold text-center mb-6">Ingresa a meta tareas</h1>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Correo</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="your@email.com">
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+            El correo es requerido
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+            Coloque un correo valido
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+          <button 
+            type="button" 
+            mat-icon-button 
+            matSuffix 
+            (click)="hidePassword = !hidePassword"
+          >
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            La contraseña es requerida
+          </mat-error>
+        </mat-form-field>
+        
+        <div class="flex justify-between items-center mt-2">
+          <mat-checkbox color="primary">Reecuerda-me</mat-checkbox>
+          <a routerLink="/auth/forgot-password" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            Olvido su algo?
+          </a>
+        </div>
+        
+        <div *ngIf="errorMessage" class="error-message text-red-500 text-center">
+          {{ errorMessage }}
+        </div>
+        
+        <button 
+          type="submit" 
+          mat-raised-button 
+          color="primary" 
+          class="w-full"
+          [disabled]="loginForm.invalid || isLoading"
+        >
+          {{ isLoading ? 'Logging in...' : 'Log in' }}
+        </button>
+        
+        <div class="text-center mt-4">
+          <span class="text-sm text-gray-600 dark:text-gray-400">No tinees una cuenta?</span>
+          <a routerLink="/auth/register" class="text-sm text-blue-600 dark:text-blue-400 hover:underline ml-1">
+            Registrarse
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
