@@ -7,5 +7,16 @@ export const routes: Routes = [
     loadComponent: () => import("./pages/dashboard/dashboard.component").then((m) => m.DashboardComponent),
     // canActivate: [authGuard],
   },
+  {
+    path: "tasks",
+    loadComponent: () => import("./pages/task/task.component").then((m) => m.TaskComponent),
+    // canActivate: [authGuard],
+  },
+//   {
+//     path: "tasks/:id",
+//     loadComponent: () =>
+//       import("./pages/task-detail/task-detail-page.component").then((m) => m.TaskDetailPageComponent),
+//     // canActivate: [authGuard],
+//   },
 
 ];

@@ -1,1 +1,27 @@
-<p>radial-menu works!</p>
+<div 
+*ngIf="visible"
+class="radial-menu fixed z-50"
+[style.left.px]="position.x"
+[style.top.px]="position.y"
+[@fadeInOut]
+>
+<div class="menu-center w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center z-10">
+  <mat-icon>more_horiz</mat-icon>
+</div>
+
+<div 
+  *ngFor="let item of items; let i = index"
+  class="menu-item absolute w-10 h-10 rounded-full shadow-md flex items-center justify-center cursor-pointer transition-all duration-300"
+  [style.transform]="getItemPosition(i)"
+  [style.background-color]="item.color || '#ffffff'"
+  [style.color]="getItemTextColor(item)"
+  (click)="onItemClick(item)"
+  [@itemAnimation]
+>
+  <mat-icon>{{ item.icon }}</mat-icon>
+  
+  <div class="item-label absolute whitespace-nowrap px-2 py-1 rounded bg-gray-800 text-white text-xs opacity-0 transition-opacity duration-200 pointer-events-none">
+    {{ item.label }}
+  </div>
+</div>
+</div>

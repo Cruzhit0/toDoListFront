@@ -1,86 +1,109 @@
-<div class="dashboard-page">
-    <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+<div class="dashboard-page bg-[#f4f7ff] min-h-screen p-6">
+    <h1 class="text-3xl font-bold mb-8 text-gray-800">Dashboard</h1>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <!-- Task summary card -->
-      <mat-card class="dashboard-card bg-white/30 dark:bg-gray-800/30 backdrop-blur-md">
-        <mat-card-header>
-          <mat-card-title>Tasks</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="p-4">
-          <div class="flex justify-between items-center">
-            <div class="text-center">
-              <div class="text-3xl font-bold">{{ taskCount }}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">Total</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-green-600 dark:text-green-400">{{ completedTaskCount }}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">Completed</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-orange-600 dark:text-orange-400">{{ pendingTaskCount }}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">Pending</div>
-            </div>
+      <!-- Tasks Card -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-gray-800">Tasks</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+        </div>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div class="text-3xl font-bold text-gray-800">{{ taskCount }}</div>
+            <div class="text-sm text-gray-500">Total</div>
           </div>
-        </mat-card-content>
-        <mat-card-actions class="p-4">
-          <button mat-button color="primary" routerLink="/tasks">View Tasks</button>
-        </mat-card-actions>
-      </mat-card>
+          <div>
+            <div class="text-3xl font-bold text-green-600">{{ completedTaskCount }}</div>
+            <div class="text-sm text-gray-500">Completed</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-orange-600">{{ pendingTaskCount }}</div>
+            <div class="text-sm text-gray-500">Pending</div>
+          </div>
+        </div>
+        <button 
+          class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors"
+          routerLink="/tasks"
+        >
+          View Tasks
+        </button>
+      </div>
       
-      <!-- Productivity card -->
-      <mat-card class="dashboard-card bg-white/30 dark:bg-gray-800/30 backdrop-blur-md">
-        <mat-card-header>
-          <mat-card-title>Productivity</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="p-4">
-          <div class="h-32 flex items-center justify-center text-gray-500 dark:text-gray-400">
-            Productivity chart will appear here
-          </div>
-        </mat-card-content>
-        <mat-card-actions class="p-4">
-          <button mat-button color="primary">View Stats</button>
-        </mat-card-actions>
-      </mat-card>
+      <!-- Productivity Card -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-gray-800">Productivity</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <div class="h-32 flex items-center justify-center text-gray-500">
+          Productivity chart will appear here
+        </div>
+        <button 
+          class="w-full mt-4 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors"
+        >
+          View Stats
+        </button>
+      </div>
       
-      <!-- Recent activity card -->
-      <mat-card class="dashboard-card bg-white/30 dark:bg-gray-800/30 backdrop-blur-md">
-        <mat-card-header>
-          <mat-card-title>Recent Activity</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="p-4">
-          <div class="activity-list space-y-2">
-            <div class="activity-item flex items-center p-2 rounded-lg bg-white/30 dark:bg-gray-700/30">
-              <mat-icon class="mr-2 text-blue-500 dark:text-blue-400">add_circle</mat-icon>
-              <span>New task created</span>
-              <span class="ml-auto text-sm text-gray-500 dark:text-gray-400">2h ago</span>
+      <!-- Recent Activity Card -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-gray-800">Recent Activity</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-center bg-gray-100 p-3 rounded-lg">
+            <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" />
+              </svg>
             </div>
-            <div class="activity-item flex items-center p-2 rounded-lg bg-white/30 dark:bg-gray-700/30">
-              <mat-icon class="mr-2 text-green-500 dark:text-green-400">check_circle</mat-icon>
-              <span>Task completed</span>
-              <span class="ml-auto text-sm text-gray-500 dark:text-gray-400">4h ago</span>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-800">New task created</p>
+              <p class="text-xs text-gray-500">2h ago</p>
             </div>
           </div>
-        </mat-card-content>
-        <mat-card-actions class="p-4">
-          <button mat-button color="primary">View All</button>
-        </mat-card-actions>
-      </mat-card>
+          <div class="flex items-center bg-gray-100 p-3 rounded-lg">
+            <div class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-800">Task completed</p>
+              <p class="text-xs text-gray-500">4h ago</p>
+            </div>
+          </div>
+        </div>
+        <button 
+          class="w-full mt-4 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors"
+        >
+          View All
+        </button>
+      </div>
     </div>
     
-    <!-- Quick add task -->
-    <mat-card class="quick-add-card mb-6 bg-white/30 dark:bg-gray-800/30 backdrop-blur-md">
-      <mat-card-header>
-        <mat-card-title>Quick Add Task</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="p-4">
-        <div class="flex gap-3">
-          <mat-form-field appearance="outline" class="flex-1">
-            <mat-label>Task title</mat-label>
-            <input matInput placeholder="Enter task title">
-          </mat-form-field>
-          <button mat-raised-button color="primary">Add</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <!-- Quick Add Task -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Add Task</h2>
+      <div class="flex gap-3">
+        <input 
+          type="text" 
+          placeholder="Enter task title" 
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+        <button 
+          class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          Add
+        </button>
+      </div>
+    </div>
   </div>

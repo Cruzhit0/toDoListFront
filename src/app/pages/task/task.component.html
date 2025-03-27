@@ -1,25 +1,24 @@
 <div class="tasks-page">
-    <h1 class="text-2xl font-bold mb-6">My Tasks</h1>
-    
-    <!-- Stats header -->
-    <div class="stats-header mb-6 p-4 rounded-xl backdrop-blur-md bg-white/20 dark:bg-gray-800/20 shadow-lg">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
-          <span class="text-sm text-gray-500 dark:text-gray-400">Total Tasks</span>
-          <span class="text-2xl font-bold">{{ tasks.length }}</span>
-        </div>
-        
-        <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
-          <span class="text-sm text-gray-500 dark:text-gray-400">Completed</span>
-          <span class="text-2xl font-bold">{{ getCompletedTasksCount() }}</span>
-        </div>
-        
-        <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
-          <span class="text-sm text-gray-500 dark:text-gray-400">Pending</span>
-          <span class="text-2xl font-bold">{{ tasks.length - getCompletedTasksCount() }}</span>
+    <h1 class="text-2xl font-bold mb-6">Mis metas</h1>
+      <!-- Stats header -->
+      <div class="stats-header mb-6 p-4 rounded-xl backdrop-blur-md bg-white/20 dark:bg-gray-800/20 shadow-lg">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
+            <span class="text-sm text-gray-500 dark:text-gray-400">Total Tasks</span>
+            <span class="text-2xl font-bold">{{ tasks.length }}</span>
+          </div>
+          
+          <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
+            <span class="text-sm text-gray-500 dark:text-gray-400">Completed</span>
+            <span class="text-2xl font-bold">{{ getCompletedTasksCount() }}</span>
+          </div>
+          
+          <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
+            <span class="text-sm text-gray-500 dark:text-gray-400">Pending</span>
+            <span class="text-2xl font-bold">{{ tasks.length - getCompletedTasksCount() }}</span>
+          </div>
         </div>
       </div>
-    </div>
     
     <!-- Task grid -->
     <div class="task-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -44,10 +43,10 @@
       *ngIf="tasks.length === 0"
       class="empty-state flex flex-col items-center justify-center p-8 mt-8 rounded-xl backdrop-blur-md bg-white/20 dark:bg-gray-800/20"
     >
-      <mat-icon class="text-5xl mb-4 text-gray-400">assignment</mat-icon>
-      <h3 class="text-xl font-medium text-gray-600 dark:text-gray-300 mb-2">No tasks yet</h3>
+      <mat-icon class="text-5xl mb-4 text-gray-400">asignar</mat-icon>
+      <h3 class="text-xl font-medium text-gray-600 dark:text-gray-300 mb-2">No tienes metas</h3>
       <p class="text-gray-500 dark:text-gray-400 mb-4 text-center">
-        Create your first task to get started on your productivity journey
+        crear tu primera Meta para comenzar a organizar tu vida.
       </p>
       <button 
         mat-raised-button 
@@ -55,7 +54,7 @@
         (click)="openNewTaskDialog()"
       >
         <mat-icon>add</mat-icon>
-        Create Task
+        Crear nueva meta
       </button>
     </div>
     
@@ -71,14 +70,3 @@
     <!-- Radial menu -->
     <app-radial-menu #radialMenu (itemSelected)="handleRadialMenuAction($event)"></app-radial-menu>
   </div>
-`,
-styles: [
-  `
-  .fab {
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 10;
-  }
-  
-  .fab:hover {
-    transform: scale(1.1);
-  }

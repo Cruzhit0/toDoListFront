@@ -12,7 +12,7 @@ import { TaskFormComponent } from "../components/task-form/task-form.component"
 import { RadialMenuComponent } from "../components/radial-menu/radial-menu.component"
 
 @Component({
-  selector: "app-tasks-page",
+  selector: "app-tasks",
   standalone: true,
   imports: [
     CommonModule,
@@ -64,7 +64,7 @@ export class TaskComponent implements OnInit {
   }
 
   openNewTaskDialog() {
-    const dialogRef = this.dialog.open(TaskFormDialogComponent, {
+    const dialogRef = this.dialog.open(TaskFormComponent, {
       width: "500px",
       panelClass: "task-dialog",
       data: { mode: "create" },
@@ -82,7 +82,7 @@ export class TaskComponent implements OnInit {
   }
 
   openEditDialog(task: Task) {
-    const dialogRef = this.dialog.open(TaskFormDialogComponent, {
+    const dialogRef = this.dialog.open(TaskFormComponent, {
       width: "500px",
       panelClass: "task-dialog",
       data: { mode: "edit", task },
