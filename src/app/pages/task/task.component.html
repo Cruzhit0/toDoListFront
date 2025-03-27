@@ -1,0 +1,72 @@
+<div class="tasks-page">
+    <h1 class="text-2xl font-bold mb-6">Mis metas</h1>
+      <!-- Stats header -->
+      <div class="stats-header mb-6 p-4 rounded-xl backdrop-blur-md bg-white/20 dark:bg-gray-800/20 shadow-lg">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
+            <span class="text-sm text-gray-500 dark:text-gray-400">Total Tasks</span>
+            <span class="text-2xl font-bold">{{ tasks.length }}</span>
+          </div>
+          
+          <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
+            <span class="text-sm text-gray-500 dark:text-gray-400">Completed</span>
+            <span class="text-2xl font-bold">{{ getCompletedTasksCount() }}</span>
+          </div>
+          
+          <div class="stat-card p-4 rounded-lg bg-white/50 dark:bg-gray-700/50 flex flex-col items-center">
+            <span class="text-sm text-gray-500 dark:text-gray-400">Pending</span>
+            <span class="text-2xl font-bold">{{ tasks.length - getCompletedTasksCount() }}</span>
+          </div>
+        </div>
+      </div>
+    
+    <!-- Task grid -->
+    <div class="task-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div 
+        *ngFor="let task of tasks"
+        class="task-item"
+        (contextmenu)="openRadialMenu($event, task)"
+      >
+        <app-task-card
+          [task]="task"
+          (onEdit)="openEditDialog($event)"
+          (onDelete)="deleteTask($event)"
+          (onDuplicate)="duplicateTask($event)"
+          (onArchive)="archiveTask($event)"
+          (onClick)="navigateToTaskDetail($event)"
+        ></app-task-card>
+      </div>
+    </div>
+    
+    <!-- Empty state -->
+    <div 
+      *ngIf="tasks.length === 0"
+      class="empty-state flex flex-col items-center justify-center p-8 mt-8 rounded-xl backdrop-blur-md bg-white/20 dark:bg-gray-800/20"
+    >
+      <mat-icon class="text-5xl mb-4 text-gray-400">asignar</mat-icon>
+      <h3 class="text-xl font-medium text-gray-600 dark:text-gray-300 mb-2">No tienes metas</h3>
+      <p class="text-gray-500 dark:text-gray-400 mb-4 text-center">
+        crear tu primera Meta para comenzar a organizar tu vida.
+      </p>
+      <button 
+        mat-raised-button 
+        color="primary"
+        (click)="openNewTaskDialog()"
+      >
+        <mat-icon>add</mat-icon>
+        Crear nueva meta
+      </button>
+    </div>
+    
+    <!-- Floating action button -->
+    <button 
+      *ngIf="tasks.length > 0"
+      class="fab fixed bottom-6 right-6 w-14 h-14 rounded-full bg-blue-600 dark:bg-blue-500 text-white shadow-lg flex items-center justify-center"
+      (click)="openNewTaskDialog()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    
+    <!-- Radial menu -->
+    <app-radial-menu #radialMenu (itemSelected)="handleRadialMenuAction($event)"></app-radial-menu>
+  </div>
