@@ -1,1 +1,60 @@
-<p>task-detail works!</p>
+<div class="task-detail p-4 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 shadow-lg">
+    <div class="mb-4 flex justify-between items-center">
+      <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon> Back
+      </button>
+      
+      <div class="actions flex gap-2">
+        <button mat-button color="primary" (click)="editTask()">
+          <mat-icon>edit</mat-icon> Edit
+        </button>
+        <button mat-button color="warn" (click)="deleteTask()">
+          <mat-icon>delete</mat-icon> Delete
+        </button>
+      </div>
+    </div>
+    
+    <ng-container *ngIf="task$ | async as task; else loading">
+      <div class="header mb-6">
+        <h1 class="text-2xl font-bold">{{ task.title }}</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">{{ task.description }}</p>
+        
+        <div class="due-date mt-3 text-sm text-gray-500 dark:text-gray-400 flex items-center">
+          <mat-icon class="text-sm mr-1">event</mat-icon>
+          <span>Due: {{ task.dueDate | date:'mediumDate' }}</span>
+        </div>
+      </div>
+      
+      <div class="subtasks-section mt-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Subtasks</h2>
+          <button mat-button color="primary" (click)="addSubtask()">
+            <mat-icon>add</mat-icon> Add Subtask
+          </button>
+        </div>
+        
+        <div class="subtasks-list space-y-3">
+          <div *ngFor="let subtask of task.subtasks" 
+               class="subtask-item p-3 bg-white/50 dark:bg-gray-700/50 rounded-lg flex items-center gap-3">
+            <app-premium-checkbox 
+              [checked]="subtask.isCompleted"
+              (checkedChange)="toggleSubtask(subtask.id)"
+            ></app-premium-checkbox>
+            <span [ngClass]="{'line-through text-gray-400': subtask.isCompleted}">
+              {{ subtask.description }}
+            </span>
+          </div>
+          
+          <div *ngIf="task.subtasks?.length === 0" class="empty-subtasks text-center p-4">
+            <p class="text-gray-500 dark:text-gray-400">No subtasks yet</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    
+    <ng-template #loading>
+      <div class="loading text-center p-8">
+        <p>Loading task details...</p>
+      </div>
+    </ng-template>
+  </div>

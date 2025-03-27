@@ -24,11 +24,11 @@ export const routes: Routes = [
         // canActivate: [authGuard],
       },
 
-//   {
-//     path: "tasks/:id",
-//     loadComponent: () =>
-//       import("./pages/task-detail/task-detail-page.component").then((m) => m.TaskDetailPageComponent),
-//     // canActivate: [authGuard],
-//   },
+        {
+            path: "tasks/:id",
+            loadComponent: () =>
+            import("./pages/task-detail/task-detail.component").then((m) => m.TaskDetailComponent),
+            // canActivate: [authGuard],
+        },
 
 ];

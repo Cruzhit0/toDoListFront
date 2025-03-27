@@ -1,0 +1,16 @@
+.premium-checkbox {
+    user-select: none;
+  }
+  
+  .checkbox-container {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .premium-checkbox:hover .checkbox-container {
+    transform: scale(1.1);
+  }
+  
+  .premium-checkbox.checked .checkbox-container {
+    background-color: #2563EB;
+    border-color: #2563EB;
+  }
