@@ -82,22 +82,29 @@ export class TaskCardComponent {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
     if (diffDays < 0) {
-      return "bg-red-500" // Overdue
+      return "bg-red-500" 
     } else if (diffDays <= 2) {
-      return "bg-orange-500" // Due soon
+      return "bg-orange-500"
     } else if (diffDays <= 7) {
-      return "bg-yellow-500" // Due this week
+      return "bg-yellow-500" 
     } else {
-      return "bg-green-500" // Due later
+      return "bg-green-500" 
     }
   }
 
   getCompletedSubtasksCount() {
+    // Add a null/undefined check for subtasks
+    if (!this.task || !this.task.subtasks) {
+      return 0
+    }
     return this.task.subtasks.filter((subtask) => subtask.isCompleted).length
   }
 
   getProgressPercentage() {
-    if (this.task.subtasks.length === 0) return 0
+    // Add a null/undefined check for subtasks
+    if (!this.task || !this.task.subtasks || this.task.subtasks.length === 0) {
+      return 0
+    }
     return Math.round((this.getCompletedSubtasksCount() / this.task.subtasks.length) * 100)
   }
 
@@ -133,4 +140,3 @@ export class TaskCardComponent {
     }
   }
 }
-

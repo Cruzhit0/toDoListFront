@@ -63,7 +63,7 @@ matRipple
   <div class="subtasks mt-4">
     <div class="flex justify-between items-center mb-1">
       <span class="text-xs text-gray-500 dark:text-gray-400">
-        {{ getCompletedSubtasksCount() }}/{{ task.subtasks.length }} subtasks
+        {{ getCompletedSubtasksCount() }}/{{ task.subtasks?.length }} subtasks
       </span>
       <span class="text-xs font-medium" [ngClass]="getProgressTextClass()">
         {{ getProgressPercentage() }}%
@@ -77,23 +77,6 @@ matRipple
         [ngClass]="getProgressBarClass()"
         [style.width.%]="getProgressPercentage()"
       ></div>
-    </div>
-  </div>
-  
-  <!-- Collaborators avatars if applicable -->
-  <div class="collaborators mt-4 flex -space-x-2" *ngIf="task.collaborators && task.collaborators.length > 0">
-    <div 
-      *ngFor="let collaborator of task.collaborators.slice(0, 3)"
-      class="avatar w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 overflow-hidden"
-    >
-      <img [src]="collaborator.avatarUrl" [alt]="collaborator.name" class="w-full h-full object-cover">
-    </div>
-    
-    <div 
-      *ngIf="task.collaborators.length > 3"
-      class="avatar w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium"
-    >
-      +{{ task.collaborators.length - 3 }}
     </div>
   </div>
 </div>

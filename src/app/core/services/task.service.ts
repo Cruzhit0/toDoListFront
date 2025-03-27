@@ -1,8 +1,8 @@
 import { Injectable, inject } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
-import { BehaviorSubject, type Observable, of, throwError } from "rxjs"
-import { catchError, tap } from "rxjs/operators"
-import  { Task } from "../models/task.model"
+import { BehaviorSubject, type Observable, of, throwError,map, forkJoin } from "rxjs"
+import { catchError, tap,switchMap } from "rxjs/operators"
+import  { Task,TaskResponse } from "../models/task.model"
 import type { SubTask } from "../models/subtask.model"
 import { environment } from "../../../environments/environment"
 
@@ -34,22 +34,32 @@ export class TaskService {
   }
 
   // Get all tasks for the current user
+  
   loadTasks(userId: number): Observable<Task[]> {
-    if (!this.isOnline) {
-      return of(this.tasksSubject.value)
-    }
-
-    return this.http.get<Task[]>(`${this.apiUrl}/api/task/user/${userId}`).pipe(
-      tap((tasks) => {
-        this.tasksSubject.next(tasks)
-        localStorage.setItem("tasks", JSON.stringify(tasks))
+    return this.http.get<TaskResponse[]>(`${this.apiUrl}/api/task/user/${userId}`).pipe(
+      switchMap(tasks => {
+        const subtaskRequests = tasks.map(task => 
+          this.http.get<SubTask[]>(`${this.apiUrl}/api/subtask/task/${task.id}`).pipe(
+            map(subtasks => ({
+              ...task,
+              subtasks: subtasks || []
+            }))
+          )
+        );
+        console.log("Subtask requests:", subtaskRequests)
+        // Wait for all subtask requests to complete
+        return forkJoin(subtaskRequests);
       }),
-      catchError((error) => {
-        console.error("Error loading tasks", error)
-        return throwError(() => error)
+      tap(tasksWithSubtasks => {
+        this.tasksSubject.next(tasksWithSubtasks);
       }),
-    )
+      catchError(error => {
+        console.error("Error loading tasks", error);
+        throw error;
+      })
+    );
   }
+
 
   // Create a new task
   createTask(task: Partial<Task>): Observable<Task> {
@@ -150,30 +160,46 @@ export class TaskService {
     }
 
     return this.http.patch<SubTask>(`${this.apiUrl}/api/subtask/${subtaskId}/toggle`, {}).pipe(
-      tap((updatedSubtask) => {
-        const currentTasks = this.tasksSubject.value
-        const taskIndex = currentTasks.findIndex((t) => t.subtasks && t.subtasks.some((s) => s.id === subtaskId))
-
-        if (taskIndex !== -1) {
-          const updatedTasks = [...currentTasks]
-          const subtaskIndex = updatedTasks[taskIndex].subtasks.findIndex((s) => s.id === subtaskId)
-
-          if (subtaskIndex !== -1) {
-            updatedTasks[taskIndex].subtasks[subtaskIndex] = updatedSubtask
-            this.tasksSubject.next(updatedTasks)
-            localStorage.setItem("tasks", JSON.stringify(updatedTasks))
-
-            // Check if all subtasks are completed
-            this.checkTaskCompletion(updatedTasks[taskIndex])
+        tap((updatedSubtask) => {
+          const currentTasks = this.tasksSubject.value;
+          const taskIndex = currentTasks.findIndex((t) => 
+            t.subtasks && t.subtasks.some((s) => s.id === subtaskId)
+          );
+    
+          if (taskIndex !== -1) {
+            const updatedTasks = [...currentTasks];
+            const task = updatedTasks[taskIndex];
+    
+            // Ensure subtasks exist and is an array
+            if (task.subtasks) {
+              const subtaskIndex = task.subtasks.findIndex((s) => s.id === subtaskId);
+    
+              if (subtaskIndex !== -1) {
+                // Create a new array of subtasks to maintain immutability
+                const updatedSubtasks = [...task.subtasks];
+                updatedSubtasks[subtaskIndex] = updatedSubtask;
+    
+                // Create a new task object with updated subtasks
+                updatedTasks[taskIndex] = {
+                  ...task,
+                  subtasks: updatedSubtasks
+                };
+    
+                this.tasksSubject.next(updatedTasks);
+                localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    
+                // Check if all subtasks are completed
+                this.checkTaskCompletion(updatedTasks[taskIndex]);
+              }
+            }
           }
-        }
-      }),
-      catchError((error) => {
-        console.error("Error toggling subtask", error)
-        return throwError(() => error)
-      }),
-    )
-  }
+        }),
+        catchError((error) => {
+          console.error("Error toggling subtask", error);
+          return throwError(() => error);
+        })
+      );
+    }
 
   // Sync offline changes when back online
   syncOfflineChanges(): void {

@@ -1,7 +1,6 @@
 import type { SubTask } from "./subtask.model"
-import type { User } from "./user.model"
 
-export interface Task {
+export interface TaskResponse {
   id: number
   title: string
   description: string
@@ -10,7 +9,9 @@ export interface Task {
   createdAt: string
   updatedAt: string
   deletedAt: string | null
-  subtasks: SubTask[]
-  collaborators?: User[]
 }
+
+export interface Task  extends TaskResponse {
+    subtasks?: SubTask[] 
+  }
 

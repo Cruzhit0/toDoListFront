@@ -22,7 +22,7 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(this.getUserFromStorage())
   currentUser$ = this.currentUserSubject.asObservable()
 
-  private tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem("token"))
+  private tokenSubject = new BehaviorSubject<string | null>(sessionStorage.getItem("token"))
   token$ = this.tokenSubject.asObservable()
 
   constructor() {
@@ -53,9 +53,9 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    localStorage.removeItem("tokenExpiry")
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("user")
+    sessionStorage.removeItem("tokenExpiry")
 
     this.currentUserSubject.next(null)
     this.tokenSubject.next(null)
@@ -68,7 +68,7 @@ export class AuthService {
     if (!token) return false
 
     // Check if token is expired
-    const expiry = localStorage.getItem("tokenExpiry")
+    const expiry = sessionStorage.getItem("tokenExpiry")
     if (!expiry) return false
 
     return new Date().getTime() < Number.parseInt(expiry, 10)
@@ -84,32 +84,35 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return this.tokenSubject.value
+    const token = sessionStorage.getItem("token")
+    console.log("Token from storage", token)
+    return token
   }
 
   isFirstTimeUser(): boolean {
-    return localStorage.getItem("firstTimeVisit") !== "true"
+    return sessionStorage.getItem("firstTimeVisit") !== "true"
   }
 
   markFirstTimeVisit(): void {
-    localStorage.setItem("firstTimeVisit", "true")
+    sessionStorage.setItem("firstTimeVisit", "true")
     this.router.navigate(["/onboarding"])
   }
 
   private setAuthData(token: string, user: User): void {
     // Calculate token expiry (24 hours from now)
+    console.log("Setting auth data",token)
     const expiryTime = new Date().getTime() + 24 * 60 * 60 * 1000
 
-    localStorage.setItem("token", token)
-    localStorage.setItem("user", JSON.stringify(user))
-    localStorage.setItem("tokenExpiry", expiryTime.toString())
+    sessionStorage.setItem("token", token)
+    sessionStorage.setItem("user", JSON.stringify(user))
+    sessionStorage.setItem("tokenExpiry", expiryTime.toString())
 
     this.currentUserSubject.next(user)
     this.tokenSubject.next(token)
   }
 
   private getUserFromStorage(): User | null {
-    const userJson = localStorage.getItem("user")
+    const userJson = sessionStorage.getItem("user")
     if (!userJson) return null
 
     try {
@@ -121,7 +124,7 @@ export class AuthService {
   }
 
   private checkTokenExpiration(): void {
-    const expiry = localStorage.getItem("tokenExpiry")
+    const expiry = sessionStorage.getItem("tokenExpiry")
     if (!expiry) return
 
     const expiryTime = Number.parseInt(expiry, 10)
