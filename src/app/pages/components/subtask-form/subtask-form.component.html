@@ -1,12 +1,16 @@
-<div class="p-6 bg-white dark:bg-gray-800 rounded-xl flex flex-col items-center">
-    <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      Add New Subtask
-    </h2>
-
-    <mat-dialog-content class="mb-4 w-full max-w-md">
+<div class="container mx-auto max-w-md p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg">
+    <div class="flex items-center justify-center mb-6">
+      <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
+        Add New Subtask
+      </h2>
+    </div>
+  
+    <div class="mb-6">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Subtask Description</mat-label>
         <input 
@@ -15,11 +19,12 @@
           placeholder="What needs to be done?"
           maxlength="250"
           class="text-gray-700 dark:text-gray-200 
-                 focus:ring-2 focus:ring-blue-500 
+                 border-gray-300 dark:border-gray-600
+                 focus:border-blue-500 dark:focus:border-blue-400
                  transition-all duration-300 ease-in-out"
         >
-        <mat-hint class="flex justify-between items-center">
-          <span class="text-gray-500 dark:text-gray-400">
+        <mat-hint class="flex justify-between items-center mt-2">
+          <span class="text-gray-500 dark:text-gray-400 text-sm">
             Describe your subtask briefly
           </span>
           <span class="text-sm text-gray-400 dark:text-gray-500">
@@ -27,14 +32,17 @@
           </span>
         </mat-hint>
       </mat-form-field>
-    </mat-dialog-content>
-
-    <mat-dialog-actions class="flex justify-center space-x-2">
+    </div>
+  
+    <div class="flex justify-end space-x-3">
       <button 
         mat-stroked-button 
         (click)="onCancel()"
-        class="text-gray-600 dark:text-gray-300 
+        class="px-4 py-2 
+               text-gray-600 dark:text-gray-300 
+               border border-gray-300 dark:border-gray-600
                hover:bg-gray-100 dark:hover:bg-gray-700 
+               rounded-md
                transition-colors duration-200"
       >
         Cancel
@@ -44,12 +52,14 @@
         color="primary" 
         (click)="onAdd()" 
         [disabled]="!subtaskDescription?.trim()"
-        class="bg-blue-600 text-white 
+        class="px-4 py-2
+               bg-blue-600 text-white 
                hover:bg-blue-700 
                disabled:opacity-50 disabled:cursor-not-allowed 
+               rounded-md
                transition-all duration-200"
       >
         Add Subtask
       </button>
-    </mat-dialog-actions>
+    </div>
   </div>

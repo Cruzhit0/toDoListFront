@@ -69,33 +69,7 @@ export class TaskDetailComponent implements OnInit {
     this.router.navigate(["/tasks"])
   }
 
-  editTask(): void {
-    this.task$
-      .pipe(
-        switchMap((task) => {
-          if (!task) return EMPTY
 
-          const dialogRef = this.dialog.open(TaskFormComponent, {
-            width: "500px",
-            panelClass: "task-dialog",
-            data: { mode: "edit", task },
-          })
-
-          return dialogRef.afterClosed()
-        }),
-        switchMap((result) => {
-          if (!result) return EMPTY
-
-          return this.task$.pipe(
-            switchMap((task) => {
-              if (!task) return EMPTY
-              return this.taskService.updateTask(task.id, result)
-            })
-          )
-        })
-      )
-      .subscribe()
-  }
 
   deleteTask(): void {
     if (confirm("Are you sure you want to delete this task?")) {
