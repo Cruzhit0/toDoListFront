@@ -1,0 +1,8 @@
+<div class="background-container absolute inset-0 -z-10 overflow-hidden"
+[ngClass]="themeService.currentTheme">
+<canvas #particleCanvas class="absolute inset-0 w-full h-full"></canvas>
+<div class="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 transition-colors duration-1000"></div>
+<div @fadeIn class="celebration-container absolute inset-0 pointer-events-none" *ngIf="showCelebration">
+<canvas #celebrationCanvas class="absolute inset-0 w-full h-full"></canvas>
+</div>
+</div>
