@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<div class="app-container h-screen w-screen overflow-hidden" [ngClass]="themeService.currentTheme">
+  <app-background></app-background>
+  <div class="relative z-10 h-full w-full">
+    <app-header></app-header>
+    <main class="container mx-auto px-4 py-6 overflow-auto h-[calc(100%-64px)]">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

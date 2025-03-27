@@ -1,0 +1,62 @@
+<header class="header relative z-20 bg-white/30 dark:bg-gray-800/30 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a routerLink="/" class="logo flex items-center">
+        <span class="text-xl font-bold">TaskMaster</span>
+      </a>
+      
+      <nav class="hidden md:flex space-x-4">
+        <a 
+          routerLink="/dashboard" 
+          routerLinkActive="text-blue-600 dark:text-blue-400"
+          class="nav-link px-3 py-2 rounded-lg hover:bg-white/20 dark:hover:bg-gray-700/30 transition-colors"
+        >
+          Dashboard
+        </a>
+        <a 
+          routerLink="/tasks" 
+          routerLinkActive="text-blue-600 dark:text-blue-400"
+          class="nav-link px-3 py-2 rounded-lg hover:bg-white/20 dark:hover:bg-gray-700/30 transition-colors"
+        >
+          Tasks
+        </a>
+      </nav>
+      
+      <div class="controls flex items-center space-x-2">
+        <!-- Theme toggle -->
+        <button 
+          mat-icon-button
+          (click)="themeService.toggleTheme()"
+          aria-label="Toggle theme"
+          class="theme-toggle"
+        >
+          <mat-icon *ngIf="themeService.currentTheme === 'light'">dark_mode</mat-icon>
+          <mat-icon *ngIf="themeService.currentTheme === 'dark'">light_mode</mat-icon>
+        </button>
+        
+        <!-- User menu -->
+        <button 
+          mat-icon-button
+          [matMenuTriggerFor]="userMenu"
+          aria-label="User menu"
+          class="user-menu"
+        >
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item routerLink="/profile">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+          </button>
+          <button mat-menu-item routerLink="/settings">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </header>
