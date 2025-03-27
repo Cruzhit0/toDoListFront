@@ -102,24 +102,27 @@ export class TaskDetailComponent implements OnInit {
   addSubtask(): void {
     this.task$.pipe(
       switchMap((task) => {
-        if (!task) return EMPTY
+        if (!task) return EMPTY;
 
         const dialogRef = this.dialog.open(SubtaskFormComponent, {
           width: "400px",
-          data: { taskId: task.id }
-        })
+          data: { taskId: task.id },
+          disableClose: true
+        });
 
-        return dialogRef.afterClosed()
+        return dialogRef.afterClosed();
       }),
       switchMap((subtaskData) => {
-        if (!subtaskData) return EMPTY
-
-        return this.taskService.createSubtask(subtaskData)
+        if (!subtaskData) return EMPTY;
+        return this.taskService.createSubtask(subtaskData);
       })
     ).subscribe({
-      error: (error) => {
-        console.error("Error creating subtask", error)
+      next: (newSubtask) => {
+        console.log('Subtask created successfully:', newSubtask);
       },
-    })
+      error: (error) => {
+        console.error("Error creating subtask", error);
+      }
+    });
   }
 }
