@@ -1,0 +1,86 @@
+<div class="dashboard-page">
+    <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <!-- Task summary card -->
+      <mat-card class="dashboard-card bg-white/30 dark:bg-gray-800/30 backdrop-blur-md">
+        <mat-card-header>
+          <mat-card-title>Tasks</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-4">
+          <div class="flex justify-between items-center">
+            <div class="text-center">
+              <div class="text-3xl font-bold">{{ taskCount }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">Total</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-green-600 dark:text-green-400">{{ completedTaskCount }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">Completed</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-orange-600 dark:text-orange-400">{{ pendingTaskCount }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">Pending</div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="p-4">
+          <button mat-button color="primary" routerLink="/tasks">View Tasks</button>
+        </mat-card-actions>
+      </mat-card>
+      
+      <!-- Productivity card -->
+      <mat-card class="dashboard-card bg-white/30 dark:bg-gray-800/30 backdrop-blur-md">
+        <mat-card-header>
+          <mat-card-title>Productivity</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-4">
+          <div class="h-32 flex items-center justify-center text-gray-500 dark:text-gray-400">
+            Productivity chart will appear here
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="p-4">
+          <button mat-button color="primary">View Stats</button>
+        </mat-card-actions>
+      </mat-card>
+      
+      <!-- Recent activity card -->
+      <mat-card class="dashboard-card bg-white/30 dark:bg-gray-800/30 backdrop-blur-md">
+        <mat-card-header>
+          <mat-card-title>Recent Activity</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-4">
+          <div class="activity-list space-y-2">
+            <div class="activity-item flex items-center p-2 rounded-lg bg-white/30 dark:bg-gray-700/30">
+              <mat-icon class="mr-2 text-blue-500 dark:text-blue-400">add_circle</mat-icon>
+              <span>New task created</span>
+              <span class="ml-auto text-sm text-gray-500 dark:text-gray-400">2h ago</span>
+            </div>
+            <div class="activity-item flex items-center p-2 rounded-lg bg-white/30 dark:bg-gray-700/30">
+              <mat-icon class="mr-2 text-green-500 dark:text-green-400">check_circle</mat-icon>
+              <span>Task completed</span>
+              <span class="ml-auto text-sm text-gray-500 dark:text-gray-400">4h ago</span>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="p-4">
+          <button mat-button color="primary">View All</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    
+    <!-- Quick add task -->
+    <mat-card class="quick-add-card mb-6 bg-white/30 dark:bg-gray-800/30 backdrop-blur-md">
+      <mat-card-header>
+        <mat-card-title>Quick Add Task</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4">
+        <div class="flex gap-3">
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-label>Task title</mat-label>
+            <input matInput placeholder="Enter task title">
+          </mat-form-field>
+          <button mat-raised-button color="primary">Add</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
