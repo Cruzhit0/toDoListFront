@@ -8,14 +8,21 @@ import { TaskService } from "../../core/services/task.service"
 import { switchMap, tap, catchError, map } from "rxjs/operators"
 import { EMPTY, Observable, of } from "rxjs"
 import { Task } from "../../core/models/task.model"
-import { SubTask } from "../../core/models/subtask.model"
 import { TaskFormComponent } from "../components/task-form/task-form.component"
 import { PremiumCheckboxComponent } from "../components/premium-checkbox/premium-checkbox.component"
+import { SubtaskFormComponent } from "../components/subtask-form/subtask-form.component" // Import the new dialog
 
 @Component({
   selector: "app-task-detail-page",
   standalone: true,
-  imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatDialogModule, PremiumCheckboxComponent],
+  imports: [
+    CommonModule, 
+    RouterModule, 
+    MatButtonModule, 
+    MatIconModule, 
+    MatDialogModule, 
+    PremiumCheckboxComponent
+  ],
   templateUrl: './task-detail.component.html',
   styleUrl: './task-detail.component.css'
 })
@@ -25,7 +32,6 @@ export class TaskDetailComponent implements OnInit {
   private taskService = inject(TaskService)
   private dialog = inject(MatDialog)
 
-  // Change to Observable<Task | null>
   task$!: Observable<Task | null>
 
   ngOnInit(): void {
@@ -37,7 +43,6 @@ export class TaskDetailComponent implements OnInit {
       switchMap((params) => {
         const id = Number(params.get("id"))
         
-        // Handle case where id might be NaN
         if (isNaN(id)) {
           this.router.navigate(["/tasks"])
           return of(null)
@@ -125,13 +130,17 @@ export class TaskDetailComponent implements OnInit {
       switchMap((task) => {
         if (!task) return EMPTY
 
-        const subtask: Partial<SubTask> = {
-          description: "New subtask",
-          isCompleted: false,
-          taskId: task.id,
-        }
+        const dialogRef = this.dialog.open(SubtaskFormComponent, {
+          width: "400px",
+          data: { taskId: task.id }
+        })
 
-        return this.taskService.createSubtask(subtask)
+        return dialogRef.afterClosed()
+      }),
+      switchMap((subtaskData) => {
+        if (!subtaskData) return EMPTY
+
+        return this.taskService.createSubtask(subtaskData)
       })
     ).subscribe({
       error: (error) => {

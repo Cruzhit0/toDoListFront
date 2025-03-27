@@ -1,1 +1,55 @@
-<p>subtask-form works!</p>
+<div class="p-6 bg-white dark:bg-gray-800 rounded-xl flex flex-col items-center">
+    <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      Add New Subtask
+    </h2>
+
+    <mat-dialog-content class="mb-4 w-full max-w-md">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Subtask Description</mat-label>
+        <input 
+          matInput 
+          [(ngModel)]="subtaskDescription" 
+          placeholder="What needs to be done?"
+          maxlength="250"
+          class="text-gray-700 dark:text-gray-200 
+                 focus:ring-2 focus:ring-blue-500 
+                 transition-all duration-300 ease-in-out"
+        >
+        <mat-hint class="flex justify-between items-center">
+          <span class="text-gray-500 dark:text-gray-400">
+            Describe your subtask briefly
+          </span>
+          <span class="text-sm text-gray-400 dark:text-gray-500">
+            {{subtaskDescription?.length || 0}}/250
+          </span>
+        </mat-hint>
+      </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="flex justify-center space-x-2">
+      <button 
+        mat-stroked-button 
+        (click)="onCancel()"
+        class="text-gray-600 dark:text-gray-300 
+               hover:bg-gray-100 dark:hover:bg-gray-700 
+               transition-colors duration-200"
+      >
+        Cancel
+      </button>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="onAdd()" 
+        [disabled]="!subtaskDescription?.trim()"
+        class="bg-blue-600 text-white 
+               hover:bg-blue-700 
+               disabled:opacity-50 disabled:cursor-not-allowed 
+               transition-all duration-200"
+      >
+        Add Subtask
+      </button>
+    </mat-dialog-actions>
+  </div>

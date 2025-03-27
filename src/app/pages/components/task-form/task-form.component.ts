@@ -44,40 +44,43 @@ interface DialogData {
     ]),
   ],
 })
-export class TaskFormComponent {
-  taskForm!: FormGroup
+export class TaskFormComponent implements OnInit {
+  taskForm: FormGroup;
 
-  private fb = inject(FormBuilder)
-  private dialogRef = inject(MatDialogRef<TaskFormComponent>);
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  ngOnInit() {
-    this.initForm()
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<TaskFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {
+    mode: "create" | "edit"; task?: Task 
+}
+  ) {
+    this.taskForm = this.fb.group({
+      title: ['', Validators.required],
+      description: [''],
+      dueDate: ['', Validators.required]
+    });
   }
 
-  private initForm() {
-    const task = this.data.task
-
-    this.taskForm = this.fb.group({
-      title: [task?.title || "", Validators.required],
-      description: [task?.description || ""],
-      dueDate: [task?.dueDate ? new Date(task.dueDate) : new Date(), Validators.required],
-    })
+  ngOnInit() {
+    if (this.data?.task) {
+      this.taskForm.patchValue({
+        title: this.data.task.title,
+        description: this.data.task.description,
+        dueDate: new Date(this.data.task.dueDate)
+      });
+    }
   }
 
   onSubmit() {
-    if (this.taskForm.invalid) return
-
-    const formValue = this.taskForm.value
-
-    // Format date to ISO string
-    const taskData = {
-      ...formValue,
-      dueDate: formValue.dueDate.toISOString(),
+    if (this.taskForm.valid) {
+      const formValue = this.taskForm.value;
+      const taskData = {
+        ...formValue,
+        dueDate: new Date(formValue.dueDate).toISOString()
+      };
+      
+      this.dialogRef.close(taskData);
     }
-
-    this.dialogRef.close(taskData)
   }
 
   onCancel() {

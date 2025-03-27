@@ -1,0 +1,5 @@
+    /* Additional custom styles if needed */
+    ::ng-deep .mat-mdc-dialog-surface {
+        background: transparent !important;
+        box-shadow: none !important;
+      }
